@@ -5,6 +5,7 @@ import com.noah.gameDemo.ImageProperties.Enemy;
 import com.noah.gameDemo.ImageProperties.Player;
 import com.noah.gameDemo.base.FrameCon;
 import com.noah.gameDemo.base.Keys;
+import com.noah.gameDemo.common.Status;
 import com.noah.gameDemo.utils.TaskUtil;
 
 import javax.swing.*;
@@ -33,10 +34,9 @@ public class DemoFrame extends JFrame {
         Enemy enemy = new Enemy();
         //子弹
         Ammo ammo = new Ammo();
-        ammo.setY(500);
-        player.setY(350);
         //实例化demoPlane
         DemoPanel demoPanel = new DemoPanel(player,enemy,ammo);
+        Status.putEntity("enemy",enemy);
         //把panel添加到窗体中
         this.add(demoPanel);
         //设置显示窗体,默认为false
@@ -53,6 +53,7 @@ public class DemoFrame extends JFrame {
             }
         });
 
+        //每5毫秒执行一次的定时任务
         TaskUtil.task(5,()->{
             demoPanel.repaint();
             //玩家行动

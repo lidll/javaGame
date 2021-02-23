@@ -3,6 +3,7 @@ package com.noah.gameDemo.ImageProperties;
 import lombok.Data;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * @ClassName BaseProperties
@@ -15,4 +16,13 @@ import java.awt.*;
 public class BaseProperties {
     public int x,y,height,width;
     java.awt.Image image;
+
+    /**
+     * 获取自身矩形
+     *
+     * @return
+     */
+    protected Rectangle getRectangle() {
+        return new Rectangle(this.x, this.y, this.width, this.height);
+    }
 }

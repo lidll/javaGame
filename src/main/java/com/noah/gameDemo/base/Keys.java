@@ -26,19 +26,18 @@ public enum Keys {
         this.keyValue = keyValue;
     }
 
+    public int getKeyValue(){
+        return keyValue;
+    }
     /**
      *
      * @Author yz
      * @Description 是否使用了按键
      * @Date 2/20/21 4:30 PM
-     * @param keyValue
      * @return boolean
      */
-    public static boolean use(int keyValue){
-        if (keySet.contains(keyValue)) {
-            return true;
-        }
-        return false;
+    public boolean use(){
+        return keySet.contains(keyValue);
     }
 
     /**

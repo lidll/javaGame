@@ -4,10 +4,14 @@ import com.noah.gameDemo.ImageProperties.imagePath.ImagePathCon;
 import com.noah.gameDemo.base.FrameCon;
 import com.noah.gameDemo.base.Keys;
 import com.noah.gameDemo.common.PlayerIndex;
+import com.noah.gameDemo.common.Status;
 import lombok.Data;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName Ammo
@@ -21,6 +25,7 @@ public class Ammo extends BaseProperties {
 
     public Ammo(){
         this.image = new ImageIcon(ImagePathCon.SPLASHING_SWEAT_SYMBOL).getImage();
+        this.y = 500;
         this.height = 50;
         this.width = 50;
     }
@@ -33,16 +38,16 @@ public class Ammo extends BaseProperties {
     }
 
     public void xMove(){
-        //跟随玩家移动
-        if (!shooting) {
-            this.setX(PlayerIndex.X);
-        }
     }
 
     public void shoot(){
-        if (Keys.use(KeyEvent.VK_SPACE)) {
+        if (Keys.SPASE.use()) {
             //发射子弹
-            shooting = true;
+            if (!shooting) {
+                shooting = true;
+                this.setY(FrameCon.height - this.height * 2);
+                this.setX(PlayerIndex.X + this.width / 9 * 8);
+            }
         }
         // 子弹发射,未发射完毕不再重新发射
         if (shooting){
@@ -52,6 +57,15 @@ public class Ammo extends BaseProperties {
                 //发射完毕
                 shooting = false;
                 this.setY(FrameCon.height);
+            }
+            if (!Status.enemyByHurt) {
+                Rectangle ammoRectangle = this.getRectangle();
+                Map<String,BaseProperties> map = Status.getMap();
+                BaseProperties enemy = map.get("enemy");
+                if (ammoRectangle.intersects(enemy.getRectangle())) {
+                    //击中敌人
+                    Status.enemyByHurt = true;
+                }
             }
 //            Rectangle enemyRectangle = new Rectangle(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
 //            Rectangle ammoRectangle = new Rectangle(ammo.getX(), ammo.getY(), ammo.getWidth(), ammo.getHeight());
